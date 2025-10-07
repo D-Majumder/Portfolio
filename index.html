@@ -6,7 +6,7 @@
     <title>Dhruba Majumder | Developer Portfolio</title>
     
     <meta name="author" content="Dhruba Majumder">
-    <meta name="description" content="Interactive portfolio of Dhruba Majumder, a developer with experience in Python, AI/ML, Cybersecurity, and Web Development. Explore projects and skills in a simulated desktop environment.">
+    <meta name="description" content="Interactive portfolio of Dhruba Majumder, a developer with experience in Python, AI/ML, Cybersecurity, and Web Development. Explore projects and skills in a simulated desktop environment or a streamlined mobile view.">
     <meta name="keywords" content="Dhruba Majumder, Portfolio, Developer, Python, AI, ML, Cybersecurity, Web Development, Data Visualization, Ethical Hacking, Social Media Management, Pinnacle Labs, Digi Sumarai, MAKAUT">
 
     <meta property="og:title" content="Dhruba Majumder | Developer Portfolio">
@@ -35,9 +35,15 @@
             font-family: 'Space Mono', monospace;
             background-color: #0A0A0A;
             color: #E0E0E0;
+        }
+
+        .desktop-only { display: block; }
+        .mobile-only { display: none; }
+        
+        body.desktop-view {
             overflow: hidden;
         }
-        
+
         #desktop {
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
@@ -258,164 +264,186 @@
         #login-screen input:focus {
             border-color: #fff;
         }
+
+        @media (max-width: 1024px) {
+            .desktop-only { display: none; }
+            .mobile-only { display: block; }
+            
+            body.mobile-view {
+                overflow-y: auto;
+                background-image: 
+                    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                    url('https://images.unsplash.com/photo-1522252234503-e356532cafd5?q=80&w=1080&auto=format&fit=crop');
+                background-attachment: fixed;
+                background-size: cover;
+            }
+
+            #mobile-view {
+                padding: 2rem 1.5rem;
+            }
+
+            .glass-card {
+                background-color: rgba(20, 20, 20, 0.6);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="boot-screen" class="overlay">
-        <svg class="w-16 h-16 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 18v-6"></path><path d="M9.5 15H12v-3"></path></svg>
-        <div class="progress-bar"><div id="progress-bar-inner" class="progress-bar-inner"></div></div>
-    </div>
-    <div id="login-screen" class="overlay hidden">
-        <h1 class="text-4xl font-bold">Welcome</h1>
-        <p class="text-lg mt-2">Please enter your name</p>
-        <input type="text" id="username-input" placeholder="Guest" autocomplete="off">
-    </div>
-    <div id="shutdown-screen" class="overlay hidden">
-         <h1 class="text-4xl font-bold">Shutting down...</h1>
-         <p class="text-lg mt-2" id="farewell-message"></p>
-    </div>
 
-    <div id="desktop"></div>
-    
-    <header id="menu-bar" class="px-4 flex items-center justify-between text-sm text-gray-200">
-        <div>
-            <strong id="menu-bar-name" class="font-bold"></strong>
-            <button id="shutdown-btn" class="ml-4 text-gray-300 hover:text-white transition">Exit</button>
+    <div id="mobile-view" class="mobile-only"></div>
+
+    <div class="desktop-only">
+        <div id="boot-screen" class="overlay">
+            <svg class="w-16 h-16 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 18v-6"></path><path d="M9.5 15H12v-3"></path></svg>
+            <div class="progress-bar"><div id="progress-bar-inner" class="progress-bar-inner"></div></div>
         </div>
-        <div class="flex items-center gap-4">
-            <div id="uptime-counter" class="text-gray-400"></div>
-            <div id="clock"></div>
+        <div id="login-screen" class="overlay hidden">
+            <h1 class="text-4xl font-bold">Welcome</h1>
+            <p class="text-lg mt-2">Please enter your name</p>
+            <input type="text" id="username-input" placeholder="Guest" autocomplete="off">
         </div>
-    </header>
+        <div id="shutdown-screen" class="overlay hidden">
+             <h1 class="text-4xl font-bold">Shutting down...</h1>
+             <p class="text-lg mt-2" id="farewell-message"></p>
+        </div>
 
-    <div id="dock"></div>
-
-    <template id="window-template">
-        <div class="window">
-            <div class="window-header">
-                <div class="window-controls">
-                    <div class="window-control close">
-                         <svg viewBox="0 0 12 12"><path d="M0 0L12 12M12 0L0 12"/></svg>
-                    </div>
-                    <div class="window-control minimize">
-                        <svg viewBox="0 0 12 12"><path d="M0 6L12 6"/></svg>
-                    </div>
-                    <div class="window-control maximize">
-                        <svg viewBox="0 0 12 12"><path d="M2 2L10 2L10 10L2 10L2 2Z M0 0L12 0L12 12L0 12L0 0Z" fill="currentColor" stroke="none"/></svg>
-                    </div>
-                </div>
-                <div class="window-title"></div>
+        <div id="desktop"></div>
+        
+        <header id="menu-bar" class="px-4 flex items-center justify-between text-sm text-gray-200">
+            <div>
+                <strong id="menu-bar-name" class="font-bold"></strong>
+                <button id="shutdown-btn" class="ml-4 text-gray-300 hover:text-white transition">Exit</button>
             </div>
-            <div class="window-body"></div>
-        </div>
-    </template>
+            <div class="flex items-center gap-4">
+                <div id="uptime-counter" class="text-gray-400"></div>
+                <div id="clock"></div>
+            </div>
+        </header>
+
+        <div id="dock"></div>
+
+        <template id="window-template">
+            <div class="window">
+                <div class="window-header">
+                    <div class="window-controls">
+                        <div class="window-control close">
+                             <svg viewBox="0 0 12 12"><path d="M0 0L12 12M12 0L0 12"/></svg>
+                        </div>
+                        <div class="window-control minimize">
+                            <svg viewBox="0 0 12 12"><path d="M0 6L12 6"/></svg>
+                        </div>
+                        <div class="window-control maximize">
+                            <svg viewBox="0 0 12 12"><path d="M2 2L10 2L10 10L2 10L2 2Z M0 0L12 0L12 12L0 12L0 0Z" fill="currentColor" stroke="none"/></svg>
+                        </div>
+                    </div>
+                    <div class="window-title"></div>
+                </div>
+                <div class="window-body"></div>
+            </div>
+        </template>
+    </div>
 
     <script>
         const portfolioData = {
             name: "Dhruba Majumder",
             cvFile: "Dhruba_Majumder_CV.pdf",
-            contact: {
-                email: "iamdhrubamajumder@gmail.com"
-            },
-            socials: {
-                github: "https://github.com/dhrubamajumder",
-                linkedin: "https://www.linkedin.com/in/dhruba-majumder",
-                website: "https://dhrubamajumder.pages.dev/",
-            },
+            contact: { email: "iamdhrubamajumder@gmail.com" },
+            socials: { github: "https://github.com/D-Majumder", linkedin: "https://www.linkedin.com/in/iamdhrubamajumder/", website: "https://dhrubamajumder.pages.dev/", },
             apps: [
-                {
-                    id: "readme",
-                    title: "README.md",
-                    icon: "readme.png",
-                    openOnStart: true,
-                    content: {
-                        welcome: "Welcome, {username}!",
-                        message: "This is a simulated desktop environment I built to showcase my skills. Feel free to open the 'applications' in the dock below to learn more about me and my work. You can drag, resize, minimize, and maximize the windows just like in a real OS.",
-                        cta: "Click on an icon in the dock to get started!"
-                    }
-                },
-                {
-                    id: "about",
-                    title: "About Me",
-                    icon: "me.png",
-                    content: {
-                        description: [
-                            `With extensive experience in digital marketing and social media management, I have successfully navigated various platforms to elevate brand presence and engagement. My career highlights include managing comprehensive social media strategies across multiple platforms where I've curated and posted compelling content, designed creative visuals, and developed effective marketing strategies.`,
-                             `I am deeply committed to continuous learning and professional development. I thrive in dynamic environments and am excited about opportunities that challenge me to grow and contribute meaningfully.`
-                        ],
-                        skills: [
-                            "Python", "AI/ML", "Data Visualization", "Power BI", "Cybersecurity", "Ethical Hacking", "Penetration Testing", "SQL Injection", "Responsive Web Design", "JavaScript", "Client Relationship Management", "Time Management", "Effective Communication"
-                        ],
-                    }
-                },
-                {
-                    id: "projects",
-                    title: "My Projects",
-                    icon: "work.png",
-                    content: {
-                         projects: [
-                            {
-                                title: "Gesture-Board",
-                                description: "An interactive Python program that enables users to create art and write text using hand gestures, leveraging computer vision techniques.",
-                                tags: ["Python", "Computer Vision", "OpenCV"],
-                                githubUrl: "https://github.com/D-Majumder/Gesture-Board"
-                            },
-                            {
-                                title: "Event Coupon Management",
-                                description: "A fully responsive web application for a farewell event, providing easy registration and unique QR-code coupons with a secure manager portal.",
-                                tags: ["Web App", "HTML/CSS", "JavaScript", "QR Code"],
-                                githubUrl: "https://github.com/D-Majumder/Event-Coupon-Management"
-                            },
-                            {
-                                title: "CyberGuardian AI",
-                                description: "A speech-based chatbot assistant built to provide guidance and awareness on digital threats and online safety, using a custom ML model.",
-                                tags: ["Python", "AI/ML", "Chatbot", "NLP"],
-                                githubUrl: "https://github.com/D-Majumder/CyberGuardian"
-                            },
-                             {
-                                title: "CineVault",
-                                description: "A minimalist, fully functional, and eye-pleasing media discovery platform built entirely with HTML and CSS without a single line of JavaScript.",
-                                tags: ["HTML", "CSS", "UI/UX"],
-                                githubUrl: "https://github.com/D-Majumder/CineVault"
-                            },
-                             {
-                                title: "Password Vault",
-                                description: "A secure password vault that stores passwords for various apps and websites using Tkinter for the GUI and hashlib for robust password hashing.",
-                                tags: ["Python", "Security", "Tkinter", "Hashing"],
-                                githubUrl: "https://github.com/D-Majumder/Password-Vault"
-                            },
-                            {
-                                title: "Smart Time Table",
-                                description: "An intelligent scheduling system to generate optimized timetables by dynamically handling constraints and resolving conflicts.",
-                                tags: ["Python", "Automation", "Algorithm"],
-                                githubUrl: "https://github.com/D-Majumder/Smart-Time-Table"
-                            },
-                        ]
-                    }
-                },
-                {
-                    id: "contact",
-                    title: "Get In Touch",
-                    icon: "connect.png",
-                    content: {
-                        message: "I am deeply committed to continuous learning and professional development. I thrive in dynamic environments and am excited about opportunities that challenge me to grow and contribute meaningfully."
-                    }
-                }
+                { id: "readme", title: "Hi there!", icon: "images/readme.png", openOnStart: true, content: { welcome: "Welcome, {username}!", message: "This is a simulated desktop environment I built to showcase my skills. Feel free to open the 'applications' in the dock below to learn more about me and my work. You can drag, resize, minimize, and maximize the windows just like in a real OS.", cta: "Click on an icon in the dock to get started!" } },
+                { id: "about", title: "About Me", icon: "images/me.png", content: { description: [ `With extensive experience in digital marketing and social media management, I have successfully navigated various platforms to elevate brand presence and engagement. My career highlights include managing comprehensive social media strategies across multiple platforms where I've curated and posted compelling content, designed creative visuals, and developed effective marketing strategies.`, `I am deeply committed to continuous learning and professional development. I thrive in dynamic environments and am excited about opportunities that challenge me to grow and contribute meaningfully.` ], skills: [ "Python", "AI/ML", "Data Visualization", "Power BI", "Cybersecurity", "Ethical Hacking", "Penetration Testing", "SQL Injection", "Responsive Web Design", "JavaScript", "Client Relationship Management", "Time Management", "Effective Communication" ], } },
+                { id: "projects", title: "My Projects", icon: "images/work.png", content: { projects: [ { title: "Gesture-Board", description: "An interactive Python program that enables users to create art and write text using hand gestures, leveraging computer vision techniques.", tags: ["Python", "Computer Vision", "OpenCV"], githubUrl: "https://github.com/D-Majumder/Gesture-Board" }, { title: "Event Coupon Management", description: "A fully responsive web application for a farewell event, providing easy registration and unique QR-code coupons with a secure manager portal.", tags: ["Web App", "HTML/CSS", "JavaScript", "QR Code"], githubUrl: "https://github.com/D-Majumder/Event-Coupon-Management" }, { title: "CyberGuardian AI", description: "A speech-based chatbot assistant built to provide guidance and awareness on digital threats and online safety, using a custom ML model.", tags: ["Python", "AI/ML", "Chatbot", "NLP"], githubUrl: "https://github.com/D-Majumder/CyberGuardian" }, { title: "CineVault", description: "A minimalist, fully functional, and eye-pleasing media discovery platform built entirely with HTML and CSS without a single line of JavaScript.", tags: ["HTML", "CSS", "UI/UX"], githubUrl: "https://github.com/D-Majumder/CineVault" }, { title: "Password Vault", description: "A secure password vault that stores passwords for various apps and websites using Tkinter for the GUI and hashlib for robust password hashing.", tags: ["Python", "Security", "Tkinter", "Hashing"], githubUrl: "https://github.com/D-Majumder/Password-Vault" }, { title: "Smart Time Table", description: "An intelligent scheduling system to generate optimized timetables by dynamically handling constraints and resolving conflicts.", tags: ["Python", "Automation", "Algorithm"], githubUrl: "https://github.com/D-Majumder/Smart-Time-Table" }, ] } },
+                { id: "contact", title: "Get In Touch", icon: "images/connect.png", content: { message: "I am deeply committed to continuous learning and professional development. I thrive in dynamic environments and am excited about opportunities that challenge me to grow and contribute meaningfully." } }
             ]
         };
+
+        const isMobile = window.innerWidth <= 1024;
+        
+        if (isMobile) {
+            document.body.classList.add('mobile-view');
+            initMobileView();
+        } else {
+            document.body.classList.add('desktop-view');
+            runStartupSequence();
+        }
 
         let username = "Guest";
         let masterInterval = null;
         const launchDate = new Date('2025-10-07T12:00:00Z');
-
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            runStartupSequence();
-        });
-
         let highestZIndex = 100;
         const openWindows = {};
         const dockItems = {};
+
+        function initMobileView() {
+            const mobileView = document.getElementById('mobile-view');
+            const aboutData = portfolioData.apps.find(app => app.id === 'about').content;
+            const projectsData = portfolioData.apps.find(app => app.id === 'projects').content;
+            const contactData = portfolioData.apps.find(app => app.id === 'contact').content;
+
+            let mobileHTML = `
+                <header class="text-center mb-16">
+                    <h1 class="text-5xl font-bold text-white mb-2">${portfolioData.name}</h1>
+                    <p class="text-xl text-gray-400">Developer Portfolio</p>
+                    <div class="mt-8 flex justify-center space-x-6">
+                        ${Object.keys(portfolioData.socials).map(key => `
+                            <a href="${portfolioData.socials[key]}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-transform duration-300 hover:scale-110">
+                                <i data-lucide="${key}" class="w-8 h-8"></i>
+                            </a>
+                        `).join('')}
+                    </div>
+                </header>
+
+                <section id="about" class="glass-card">
+                    <h2 class="text-3xl font-bold text-white mb-6">About Me</h2>
+                    ${aboutData.description.map(p => `<p class="mb-4 text-gray-300 text-lg">${p}</p>`).join('')}
+                    <h3 class="text-2xl font-bold text-white mt-8 mb-4">My Skills</h3>
+                    <div class="flex flex-wrap gap-3">
+                        ${aboutData.skills.map(skill => `<span class="bg-gray-700/50 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">${skill}</span>`).join('')}
+                    </div>
+                </section>
+
+                <section id="projects" class="glass-card">
+                    <h2 class="text-3xl font-bold text-white mb-6">My Projects</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        ${projectsData.projects.map(project => `
+                            <div class="bg-gray-900/40 border border-gray-700/50 rounded-lg p-6 flex flex-col hover:border-blue-500/50 transition-all duration-300 hover:bg-gray-900/60">
+                                 <h3 class="text-xl font-bold text-white mb-2">${project.title}</h3>
+                                 <p class="text-gray-400 flex-grow mb-4">${project.description}</p>
+                                 <div class="flex flex-wrap gap-2 text-xs mb-4">
+                                    ${project.tags.map(tag => `<span class="font-mono text-gray-400 bg-gray-700 px-2 py-1 rounded">${tag}</span>`).join('')}
+                                 </div>
+                                 <div class="flex space-x-4 mt-auto">
+                                    ${project.githubUrl ? `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white"><i data-lucide="github" class="w-6 h-6"></i></a>` : ''}
+                                 </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                     <div class="text-center mt-8">
+                        <a href="${portfolioData.socials.github}?tab=repositories" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white bg-gray-700/50 hover:bg-gray-600/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-300">
+                            <i data-lucide="github" class="w-4 h-4"></i>
+                            See All Projects on GitHub
+                        </a>
+                    </div>
+                </section>
+
+                <section id="contact" class="glass-card text-center">
+                    <h2 class="text-3xl font-bold text-white mb-6">Get In Touch</h2>
+                    <p class="text-xl max-w-2xl mx-auto mb-6 text-gray-300">${contactData.message}</p>
+                    <a href="mailto:${portfolioData.contact.email}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-lg px-8 py-4 text-center transition duration-300 hover:scale-105">
+                        Say Hello
+                    </a>
+                </section>
+            `;
+            
+            mobileView.innerHTML = mobileHTML;
+            lucide.createIcons();
+        }
 
         function runStartupSequence() {
             const bootScreen = document.getElementById('boot-screen');
@@ -482,11 +510,7 @@
                 const dockItem = document.createElement('div');
                 dockItem.className = 'dock-item';
                 dockItem.id = `dock-item-${app.id}`;
-                dockItem.innerHTML = `
-                    <img src="${app.icon}" alt="${app.title}">
-                    <span class="tooltip">${app.title}</span>
-                    <div class="active-dot"></div>
-                `;
+                dockItem.innerHTML = `<img src="${app.icon}" alt="${app.title}"><span class="tooltip">${app.title}</span><div class="active-dot"></div>`;
                 dockItem.addEventListener('click', () => {
                     const windowEl = openWindows[app.id];
                     if (windowEl) {
@@ -552,63 +576,14 @@
             const content = app.content;
             switch (app.id) {
                 case 'readme':
-                    return `
-                        <div class="text-center h-full flex flex-col justify-center items-center p-4">
-                           <i data-lucide="hand" class="w-16 h-16 text-yellow-400 mb-6"></i>
-                           <h2 class="text-4xl font-bold text-white mb-4">${content.welcome.replace('{username}', username)}</h2>
-                           <p class="text-lg max-w-lg mx-auto mb-4">${content.message}</p>
-                           <p class="text-md text-gray-400 font-semibold">${content.cta}</p>
-                        </div>
-                    `;
+                    return `<div class="text-center h-full flex flex-col justify-center items-center p-4"><i data-lucide="hand" class="w-16 h-16 text-yellow-400 mb-6"></i><h2 class="text-4xl font-bold text-white mb-4">${content.welcome.replace('{username}', username)}</h2><p class="text-lg max-w-lg mx-auto mb-4">${content.message}</p><p class="text-md text-gray-400 font-semibold">${content.cta}</p></div>`;
                 case 'about':
-                    return `
-                        <h2 class="text-3xl font-bold text-white mb-4">About Me</h2>
-                        ${content.description.map(p => `<p class="mb-4 text-gray-300">${p}</p>`).join('')}
-                        <h3 class="text-2xl font-bold text-white mt-8 mb-4">My Skills</h3>
-                        <div class="flex flex-wrap gap-3">
-                            ${content.skills.map(skill => `<span class="bg-gray-700 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">${skill}</span>`).join('')}
-                        </div>
-                    `;
+                    return `<h2 class="text-3xl font-bold text-white mb-4">About Me</h2>${content.description.map(p => `<p class="mb-4 text-gray-300">${p}</p>`).join('')}<h3 class="text-2xl font-bold text-white mt-8 mb-4">My Skills</h3><div class="flex flex-wrap gap-3">${content.skills.map(skill => `<span class="bg-gray-700 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">${skill}</span>`).join('')}</div>`;
                 case 'projects':
-                    const projectsGrid = content.projects.map(project => `
-                        <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 flex flex-col hover:border-blue-500/50 transition-all duration-300">
-                             <h3 class="text-lg font-bold text-white mb-2">${project.title}</h3>
-                             <p class="text-gray-400 flex-grow mb-3 text-sm">${project.description}</p>
-                             <div class="flex flex-wrap gap-2 text-xs mb-4">
-                                ${project.tags.map(tag => `<span class="font-mono text-gray-400 bg-gray-700 px-2 py-1 rounded">${tag}</span>`).join('')}
-                             </div>
-                             <div class="flex space-x-4 mt-auto">
-                                ${project.githubUrl ? `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white"><i data-lucide="github" class="w-5 h-5"></i></a>` : ''}
-                                ${project.liveUrl ? `<a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white"><i data-lucide="external-link" class="w-5 h-5"></i></a>` : ''}
-                             </div>
-                        </div>
-                    `).join('');
-                    return `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${projectsGrid}</div>
-                        <div class="text-center mt-8">
-                            <a href="${portfolioData.socials.github}?tab=repositories" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white bg-gray-700 hover:bg-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-300">
-                                <i data-lucide="github" class="w-4 h-4"></i>
-                                See All Projects on GitHub
-                            </a>
-                        </div>
-                    `;
+                    const projectsGrid = content.projects.map(project => `<div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 flex flex-col hover:border-blue-500/50 transition-all duration-300"><h3 class="text-lg font-bold text-white mb-2">${project.title}</h3><p class="text-gray-400 flex-grow mb-3 text-sm">${project.description}</p><div class="flex flex-wrap gap-2 text-xs mb-4">${project.tags.map(tag => `<span class="font-mono text-gray-400 bg-gray-700 px-2 py-1 rounded">${tag}</span>`).join('')}</div><div class="flex space-x-4 mt-auto">${project.githubUrl ? `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white"><i data-lucide="github" class="w-5 h-5"></i></a>` : ''}</div></div>`).join('');
+                    return `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">${projectsGrid}</div><div class="text-center mt-8"><a href="${portfolioData.socials.github}?tab=repositories" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white bg-gray-700 hover:bg-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-300"><i data-lucide="github" class="w-4 h-4"></i> See All Projects on GitHub</a></div>`;
                 case 'contact':
-                    return `
-                        <div class="text-center h-full flex flex-col justify-center items-center">
-                            <p class="text-xl max-w-md mx-auto mb-6">${content.message}</p>
-                            <a href="mailto:${portfolioData.contact.email}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-lg px-8 py-3 text-center transition duration-300">
-                                Say Hello
-                            </a>
-                             <p class="mt-8 text-lg">Or find me on:</p>
-                             <div class="mt-4 flex space-x-6">
-                                ${Object.keys(portfolioData.socials).map(key => `
-                                    <a href="${portfolioData.socials[key]}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white">
-                                        <i data-lucide="${key}" class="w-8 h-8"></i>
-                                    </a>
-                                `).join('')}
-                            </div>
-                        </div>
-                    `;
+                    return `<div class="text-center h-full flex flex-col justify-center items-center"><p class="text-xl max-w-md mx-auto mb-6">${content.message}</p><a href="mailto:${portfolioData.contact.email}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-lg px-8 py-3 text-center transition duration-300">Say Hello</a><p class="mt-8 text-lg">Or find me on:</p><div class="mt-4 flex space-x-6">${Object.keys(portfolioData.socials).map(key => `<a href="${portfolioData.socials[key]}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white"><i data-lucide="${key}" class="w-8 h-8"></i></a>`).join('')}</div></div>`;
                 default:
                     return '';
             }
@@ -624,30 +599,18 @@
                 windowEl.classList.remove('maximized');
                 if(windowEl.dataset.originalRect) {
                     const rect = JSON.parse(windowEl.dataset.originalRect);
-                    windowEl.style.width = rect.width;
-                    windowEl.style.height = rect.height;
-                    windowEl.style.top = rect.top;
-                    windowEl.style.left = rect.left;
+                    windowEl.style.width = rect.width; windowEl.style.height = rect.height; windowEl.style.top = rect.top; windowEl.style.left = rect.left;
                 }
             } else {
                 const rect = windowEl.getBoundingClientRect();
-                windowEl.dataset.originalRect = JSON.stringify({
-                    width: `${rect.width}px`,
-                    height: `${rect.height}px`,
-                    top: `${windowEl.offsetTop}px`,
-                    left: `${windowEl.offsetLeft}px`,
-                });
+                windowEl.dataset.originalRect = JSON.stringify({ width: `${rect.width}px`, height: `${rect.height}px`, top: `${windowEl.offsetTop}px`, left: `${windowEl.offsetLeft}px` });
                 windowEl.classList.add('maximized');
             }
         }
 
         function makeDraggable(windowEl) {
             const header = windowEl.querySelector('.window-header');
-            let isDragging = false;
-            let offsetX, offsetY;
-            let currentX, currentY;
-            let animationFrame;
-
+            let isDragging = false, offsetX, offsetY, currentX, currentY, animationFrame;
             function onMouseDown(e) {
                 isDragging = true;
                 offsetX = e.clientX - windowEl.offsetLeft;
@@ -656,12 +619,10 @@
                 document.addEventListener('mousemove', onMouseMove);
                 document.addEventListener('mouseup', onMouseUp);
             }
-
             function onMouseMove(e) {
                 if (!isDragging) return;
                 currentX = e.clientX - offsetX;
                 currentY = e.clientY - offsetY;
-                
                 cancelAnimationFrame(animationFrame);
                 animationFrame = requestAnimationFrame(() => {
                     if (windowEl.classList.contains('maximized')) return;
@@ -669,7 +630,6 @@
                     windowEl.style.top = `${currentY}px`;
                 });
             }
-
             function onMouseUp() {
                 isDragging = false;
                 header.style.cursor = 'move';
@@ -677,7 +637,6 @@
                 document.removeEventListener('mouseup', onMouseUp);
                 cancelAnimationFrame(animationFrame);
             }
-
             header.addEventListener('mousedown', onMouseDown);
         }
 
@@ -686,17 +645,10 @@
                 clearInterval(masterInterval);
                 masterInterval = null;
             }
-
             const shutdownScreen = document.getElementById('shutdown-screen');
             const farewellMessage = document.getElementById('farewell-message');
-            
-            if (farewellMessage) {
-                farewellMessage.textContent = `Thank you for visiting, ${username}!`;
-            }
-            if (shutdownScreen) {
-                shutdownScreen.classList.remove('hidden');
-            }
-
+            if (farewellMessage) { farewellMessage.textContent = `Thank you for visiting, ${username}!`; }
+            if (shutdownScreen) { shutdownScreen.classList.remove('hidden'); }
             setTimeout(() => {
                 document.body.innerHTML = '';
                 document.body.style.backgroundColor = '#000';
@@ -705,5 +657,4 @@
     </script>
 </body>
 </html>
-
 

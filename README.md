@@ -1,24 +1,19 @@
-<h1 align="center" id="title" style="display:flex;align-items:center;justify-content:center;gap:12px;">
-  💻 <span style="font-weight:700;">Interactive macOS-Style Portfolio</span> 💻
+<h1 align="center" style="display:flex;align-items:center;justify-content:center;gap:12px;">
+  💻 <span style="font-weight:700;">Portfolio OS</span> 💻
 </h1>
 
 <p align="center">
-  <i>“A sleek, desktop-inspired portfolio — where design meets interactivity.”</i>
-</p>
-
-<p align="center">
-  <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1600&q=80" alt="macOS Portfolio Preview" style="max-width:100%;height:auto;border-radius:12px;box-shadow:0 0 15px rgba(0,0,0,0.25);">
+  <i>A calm, Apple-minimal desktop &amp; mobile portfolio — live GitHub feed, weather/AQI, an offline Tools app, and a full boot/power sequence.</i>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/HTML5-Structure-orange?logo=html5" alt="HTML Badge">
   <img src="https://img.shields.io/badge/CSS3-Styling-blue?logo=css3" alt="CSS Badge">
-  <img src="https://img.shields.io/badge/Tailwind-Utility-blueviolet?logo=tailwindcss" alt="Tailwind Badge">
   <img src="https://img.shields.io/badge/JavaScript-Logic-yellow?logo=javascript" alt="JavaScript Badge">
+  <img src="https://img.shields.io/badge/Open--Meteo-Weather%2FAQI-2ea44f" alt="Open-Meteo Badge">
+  <img src="https://img.shields.io/badge/GitHub_Pages-Deploy-222?logo=github" alt="GitHub Pages Badge">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License Badge">
 </p>
-
----
 
 <div align="center">
   <img src="https://img.shields.io/badge/⚙️_Built_with_Vanilla_Tech_-_No_Frameworks-black?style=for-the-badge" alt="Vanilla Badge">
@@ -28,118 +23,81 @@
 
 ## 🪄 Overview
 
-**Interactive macOS-Style Portfolio** transforms your personal portfolio into a **fully interactive desktop environment** — complete with a menu bar, dock, draggable app windows, and startup animations. Everything is crafted with **pure HTML, CSS, and JavaScript** — no frameworks, no dependencies.
+**Portfolio OS** is a desktop-simulation portfolio with two separate, purpose-built UIs — one for desktop, one for mobile — sharing a single codebase. It includes a live GitHub project feed, a working weather/AQI widget, an offline Calculator/Converter/Colour tools app, a music player, and a premium animated boot & power sequence.
 
-> ✨ *A lightweight, immersive experience that feels like exploring a real operating system.*
-
----
-
-## 🚀 Features
-
-🖥️ **macOS UI Simulation**  
-A full desktop interface with a top menu bar, dock icons, and movable windows.  
-
-🪟 **Window Management**  
-Open, close, minimize, maximize, and drag application windows freely.  
-
-📂 **Dynamic Content System**  
-Edit all your info (about, skills, projects, etc.) from one JS object — no HTML editing needed.  
-
-⚡ **Boot & Shutdown Animations**  
-Startup animation, login screen, and shutdown sequence for added immersion.  
-
-🕒 **Live Clock & Uptime Counter**  
-Displays current system time and “site uptime.”  
-
-📱 **Responsive Design**  
-Optimized for desktop, but still accessible on mobile and tablet.  
-
-🧩 **Zero Dependencies**  
-Built purely with **vanilla JavaScript**, **HTML**, and **Tailwind via CDN**.
+No build step, no frameworks, no dependencies. Push to GitHub, turn on Pages, done.
 
 ---
 
-## 🧰 Tech Stack
+## ✨ Features
 
-| Technology | Purpose |
-|-------------|----------|
-| 🧱 **HTML5** | Core structure |
-| 🎨 **CSS3** | Styling & animations |
-| 🌀 **Tailwind CSS** | Utility-first styling |
-| ⚙️ **JavaScript (ES6+)** | Window logic & interactivity |
-| 🧭 **Lucide Icons** | Clean vector icons |
-
----
-
-## 🧑‍💻 Getting Started
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/dhrubamajumder/your-repo-name.git
-   ```
-
-2. **Open `portfolio.html`**  
-   Find the `<script>` section and update the `portfolioData` object:
-
-   ```js
-   const portfolioData = {
-       name: "Your Name",
-       cvFile: "Your_CV.pdf",
-       contact: { email: "you@example.com" },
-       socials: {
-           github: "https://github.com/yourusername",
-           linkedin: "https://linkedin.com/in/yourusername",
-           website: "https://your-site.com"
-       },
-       apps: [ /* Edit window content here */ ]
-   };
-   ```
-
-3. **Add Icons**
-   - Create an `assets/` folder in the root directory.
-   - Add 64×64 icons (PNG/SVG).
-   - Update icon paths like:
-     ```js
-     icon: "assets/about-icon.png",
-     ```
-
-4. **Deploy Anywhere**  
-   Host on **Vercel**, **Netlify**, or **GitHub Pages** — it’s 100% static!
+- 🖥️ **Dual UI** — dedicated desktop (windows, dock, menu bar) and mobile (app grid, status bar, full-screen apps) experiences from one codebase
+- 📡 **Live GitHub feed** — pulls and ranks your repos automatically
+- 🌤️ **Weather + AQI widget** — powered by Open-Meteo (free, no API key), uses visitor location with a fallback city
+- 🧮 **Tools app** — Calculator, unit Converter (length/weight/temperature), and a Colour picker with HEX/RGB/HSL + shade swatches, fully offline
+- 🎵 **Music player** — play/pause/next/previous/loop with a live progress bar, on both desktop (mini player) and mobile (dedicated app)
+- ⚡ **Boot & power sequence** — animated typing welcome, Sleep/Reboot/Log Out/Shut Down actions
+- ⏱️ **Persistent uptime counter**
+- 🔍 **SEO-ready** — Open Graph/Twitter Card meta, custom favicon set, and Schema.org structured data out of the box
 
 ---
 
-## 🧩 Customization Tips
+## 🧰 Project Structure
 
-- Modify animations in CSS for personalized boot or shutdown effects.  
-- Add more “apps” (About, Projects, Contact) via the `apps` array.  
-- Use Lucide or custom SVGs for a unique dock aesthetic.  
-- Experiment with blur and glassmorphism for a modern look.  
+| Path | Purpose |
+|---|---|
+| `index.html` | Shared shell: SEO/OG meta, boot screen, desktop & mobile mounts |
+| `css/style.css` | Theme and all styling |
+| `js/data.js` | **Your content** — text, links, skills, playlist, widget config |
+| `js/shared.js` | Device-agnostic logic: boot sequence, uptime, weather/AQI, Tools app, power actions |
+| `js/desktop.js` | Desktop-only: windows, dock, calendar, music player |
+| `js/mobile.js` | Mobile-only: app-grid home screen, full-screen app view, status bar |
+| `js/github.js` | Live GitHub repo fetch + ranking |
+| `js/bootstrap.js` | Selects desktop or mobile build based on screen width |
+| `music/` | Your own licensed mp3s (see `music/README.txt`) |
+| `assets/` | Favicon set + `og-banner.png` |
+| `site.webmanifest` | PWA manifest |
 
 ---
 
-## 🧠 Example App Object
+## 🎨 Design
 
-```js
-{
-  title: "Projects",
-  icon: "assets/projects-icon.png",
-  content: `
-    <h2>Featured Projects</h2>
-    <ul>
-      <li><strong>Portfolio OS:</strong> The site you're viewing!</li>
-      <li><strong>TaskMate:</strong> Productivity app built with vanilla JS.</li>
-      <li><strong>DesignFlow:</strong> Figma-to-code tool prototype.</li>
-    </ul>
-  `
-}
-```
+A light, neutral "carved-glass" theme: off-white canvas (`#EEF0F3`), charcoal text, a single Apple-blue accent (`#0071E3`), and soft inset/outset shadows (`--shadow-carve`) instead of glow effects across every panel, window, and widget.
+
+---
+
+## 🎵 Adding Music
+
+Playlist entries already exist in `js/data.js → playlist` — you just need to supply the audio for each track using one of:
+
+- **`src`** — your own licensed mp3, dropped into `/music`
+- **`spotifyId`** — from Spotify's official "Embed track" share link (fully licensed, no self-hosting required)
+
+Full steps are in `music/README.txt`.
+
+> Swap in your own licensed music or Spotify embeds — audio files aren't bundled with this template.
+
+---
+
+## 🧑‍💻 Editing Content
+
+All text, links, skills, playlist, and widget settings live in **`js/data.js`**. You shouldn't need to touch any logic or CSS files just to update your bio, projects, or config.
+
+---
+
+## 🚀 Deploy on GitHub Pages
+
+1. Push this folder to a repo.
+2. Repo → **Settings → Pages** → Source: **Deploy from branch** → `main` / root.
+3. Live at `https://<username>.github.io/<repo>/` within a minute or two.
+4. Update the `og:url` / `canonical` tags in `index.html` to your real URL.
+5. (Optional) Submit the URL in [Google Search Console](https://search.google.com/search-console) to speed up indexing.
 
 ---
 
 ## 🧾 License
 
-This project is released under the **MIT License** — free to use, modify, and share.  
-See the `LICENSE.md` file for details.
+Released under the **MIT License** — free to use, modify, and share.
 
 ---
 
@@ -158,13 +116,5 @@ See the `LICENSE.md` file for details.
 </p>
 
 <p align="center">
-  💻 <i>“Code it like it’s your OS — minimal, elegant, and interactive.”</i> 💻
-</p>
-
-<div align="center">
-  <img src="https://img.shields.io/badge/🚀_Built_with_HTML_CSS_JS_-_Pure_and_Lightweight_-black?style=for-the-badge" alt="Pure Tech Badge">
-</div>
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0A84FF&height=100&section=footer&text=Welcome%20to%20My%20Portfolio%20Desktop&fontSize=22&fontColor=ffffff&animation=fadeIn" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0071E3&height=100&section=footer&text=Portfolio%20OS&fontSize=22&fontColor=ffffff&animation=fadeIn" />
 </p>

@@ -1,0 +1,16 @@
+name = "portfolio-os-api"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+[[kv_namespaces]]
+binding = "VISITS_KV"
+id = "7d2c696a7e9c4c9082e68fdc843ebda9"
+
+
+[vars]
+GITHUB_REPO = "D-Majumder/Portfolio"
+GITHUB_BRANCH = "main"
+ALLOWED_ORIGIN = "https://d-majumder.github.io"
+
+# GITHUB_TOKEN is a SECRET — never put it in this file.
+# Set it with:  wrangler secret put GITHUB_TOKEN

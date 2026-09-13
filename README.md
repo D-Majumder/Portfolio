@@ -1,6 +1,4 @@
-<h1 align="center" style="display:flex;align-items:center;justify-content:center;gap:12px;">
-  💻 <span style="font-weight:700;">Portfolio OS</span> 💻
-</h1>
+<h1 align="center">Portfolio OS</h1>
 
 <p align="center">
   <i>A desktop &amp; mobile portfolio that behaves like a tiny operating system — live GitHub feed, weather/AQI, an offline Tools app, day/night theming tied to real time in Kolkata, a mouse-reactive background, and a full boot/power sequence.</i>
@@ -16,40 +14,36 @@
   <img src="https://img.shields.io/badge/License-Proprietary-red" alt="License Badge">
 </p>
 
-<div align="center">
-  <img src="https://img.shields.io/badge/⚙️_Built_with_Vanilla_Tech_-_No_Frameworks-black?style=for-the-badge" alt="Vanilla Badge">
-</div>
-
 ---
 
-## 🪄 Overview
+## Overview
 
-**Portfolio OS** is a desktop-simulation portfolio with two separate, purpose-built UIs — one for desktop, one for mobile — sharing a single codebase. It includes a live GitHub project feed, a working weather/AQI widget, an offline Calculator/Converter/Colour tools app, a music player, an auto day/night theme, a public feedback wall, a visit counter, and a premium animated boot & power sequence.
+**Portfolio OS** is a desktop-simulation portfolio with two separate, purpose-built UIs — one for desktop, one for mobile — sharing a single codebase. It includes a live GitHub project feed, a working weather/AQI widget, an offline Calculator/Converter/Colour tools app, a music player, an auto day/night theme, a public feedback wall, a visit counter, and an animated boot & power sequence.
 
 No build step, no frameworks, no dependencies. Push to GitHub, turn on Pages, done.
 
 ---
 
-## ✨ Features
+## Features
 
-- 🖥️ **Dual UI** — dedicated desktop (windows, dock, menu bar) and mobile (app grid, status bar, full-screen apps) experiences from one codebase
-- 🪟 **Freely resizable windows** — every desktop window drags from any of its 8 edges/corners, not just one; mobile stays full-screen by design
-- 📱 **Native mobile back behavior** — opening an app on mobile pushes a browser history entry, so the phone's own back gesture/button closes it and returns home, instead of leaving the site
-- 🌗 **Day/Night theme** — automatically switches based on the real-time clock in Kolkata (India), with a manual override toggle and a small "Day here / Night here" indicator showing the actual local status regardless of the override
-- 🖱️ **Mouse-reactive background** — a soft glow follows the pointer and the wallpaper drifts with a subtle parallax, so the whole page feels alive rather than static
-- 📡 **Live GitHub feed** — pulls and ranks your repos automatically
-- 🌤️ **Weather + AQI widget** — powered by Open-Meteo (free, no API key), uses visitor location with a fallback city
-- 🧮 **Tools app** — Calculator, unit Converter (length/weight/temperature), and a Colour picker with HEX/RGB/HSL + shade swatches, fully offline
-- 🎵 **Music player** — play/pause/next/previous/loop with a live progress bar, on both desktop (mini player) and mobile (dedicated app)
-- 💬 **Feedback wall** — visitors can leave a name + message; anyone else can read who said what and when. Stored as real, versioned commits in this repo's `data/feedback.json` via a secured backend (see `server/`)
-- 👀 **Visit counter** — a running total of page visits, shown as a small pill/widget on both desktop and mobile
-- ⚡ **Boot & power sequence** — animated typing welcome, Sleep/Reboot/Log Out/Shut Down actions
-- ⏱️ **Persistent uptime counter**
-- 🔍 **SEO-ready** — Open Graph/Twitter Card meta, custom favicon set, and Schema.org structured data out of the box
+- **Dual UI** — dedicated desktop (windows, dock, menu bar) and mobile (app grid, status bar, full-screen apps) experiences from one codebase
+- **Freely resizable windows** — every desktop window drags from any of its 8 edges/corners, not just one; mobile stays full-screen by design
+- **Native mobile back behavior** — opening an app on mobile pushes a browser history entry, so the phone's own back gesture/button closes it and returns home, instead of leaving the site
+- **Day/Night theme** — automatically switches based on the real-time clock in Kolkata (India), with a manual override toggle and a small "Day here / Night here" indicator showing the actual local status regardless of the override
+- **Mouse-reactive background** — a soft glow follows the pointer and the wallpaper drifts with a subtle parallax
+- **Live GitHub feed** — pulls and ranks your repos automatically
+- **Weather + AQI widget** — powered by Open-Meteo (free, no API key), uses visitor location with a fallback city
+- **Tools app** — Calculator, unit Converter (length/weight/temperature), and a Colour picker with HEX/RGB/HSL + shade swatches, fully offline
+- **Music player** — play/pause/next/previous/loop with a live progress bar, on both desktop (mini player) and mobile (dedicated app)
+- **Feedback wall** — visitors can leave a name + message; anyone else can read who said what and when. Stored as real, versioned commits in this repo's `data/feedback.json` via a secured backend (see `server/`)
+- **Visit counter** — a running total of page visits, shown as a small pill/widget on both desktop and mobile
+- **Boot & power sequence** — animated typing welcome, Sleep/Reboot/Log Out/Shut Down actions
+- **Persistent uptime counter**
+- **SEO-ready** — Open Graph/Twitter Card meta, custom favicon set, and Schema.org structured data out of the box
 
 ---
 
-## 🧰 Project Structure
+## Project Structure
 
 | Path | Purpose |
 |---|---|
@@ -62,14 +56,14 @@ No build step, no frameworks, no dependencies. Push to GitHub, turn on Pages, do
 | `js/theme.js` | Day/Night auto theme (Kolkata clock) + manual override + mouse-reactive background driver |
 | `js/github.js` | Live GitHub repo fetch + ranking |
 | `js/bootstrap.js` | Selects desktop or mobile build based on screen width; fires the one-time visit count |
-| `server/` | Optional Cloudflare Worker backend for the visit counter + feedback wall — see `server/README.md` |
+| `server/` | Optional Cloudflare Worker backend (`worker.js`, `wrangler.toml`) for the visit counter + feedback wall |
 | `music/` | Your own licensed mp3s |
 | `assets/` | Favicon set + `og-banner.png` |
 | `site.webmanifest` | PWA manifest |
 
 ---
 
-## 🎨 Design
+## Design
 
 A vivid indigo/teal theme built on a translucent "carved-glass" surface system, using [Inconsolata](https://fonts.google.com/share?selection.family=Inconsolata:wght@200..900) across the whole site. Every color is a CSS variable, so the entire UI — menu bar, dock, windows, mobile shell — crossfades smoothly between:
 
@@ -80,7 +74,7 @@ The active theme is driven by the real-time clock in **Kolkata** (6am–6pm = da
 
 ---
 
-## 🎵 Adding Music
+## Adding Music
 
 The playlist lives in `js/data.js → playlist`. Each entry needs either:
 
@@ -91,11 +85,11 @@ The playlist lives in `js/data.js → playlist`. Each entry needs either:
 
 ---
 
-## 💬 Feedback Wall & Visit Counter
+## Feedback Wall & Visit Counter
 
 Both features are **off by default** and stay quietly hidden until configured — nothing else on the site depends on them.
 
-Turning them on requires a small backend, because a static site can't write to GitHub (or count visits persistently) on its own without exposing a secret token in the browser. Full walkthrough — creating a scoped GitHub token, deploying the Cloudflare Worker, wiring it into `js/data.js` — is in **[`server/README.md`](server/README.md)**.
+Turning them on requires a small backend, because a static site can't write to GitHub (or count visits persistently) on its own without exposing a secret token in the browser. The backend lives in `server/` as a Cloudflare Worker (`worker.js`, configured via `wrangler.toml`); wiring it up means creating a scoped GitHub token, deploying the Worker, and pointing `js/data.js` at its URL.
 
 Once connected:
 - Feedback entries are committed straight into this repo at `data/feedback.json` (name, message, timestamp).
@@ -103,13 +97,13 @@ Once connected:
 
 ---
 
-## 🧑‍💻 Editing Content
+## Editing Content
 
 All text, links, skills, playlist, and widget/backend settings live in **`js/data.js`**. You shouldn't need to touch any logic or CSS files just to update your bio, projects, or config.
 
 ---
 
-## 🚀 Deploy on GitHub Pages
+## Deploy on GitHub Pages
 
 1. Push this folder to a repo.
 2. Repo → **Settings → Pages** → Source: **Deploy from branch** → `main` / root.
@@ -120,7 +114,7 @@ All text, links, skills, playlist, and widget/backend settings live in **`js/dat
 
 ---
 
-## 🧾 License
+## License
 
 **All rights reserved.** This project is **not** open source — see [`LICENSE.md`](LICENSE.md).
 
@@ -128,7 +122,7 @@ No part of this repository (code, design, or content) may be copied, reused, red
 
 ---
 
-## 👤 Author
+## Author
 
 <p align="center">
   <a href="mailto:iamdhrubamajumder@gmail.com" target="_blank">
@@ -140,8 +134,4 @@ No part of this repository (code, design, or content) may be copied, reused, red
   <a href="https://github.com/D-Majumder" target="_blank">
     <img src="https://img.shields.io/badge/GitHub-D--Majumder-black?logo=github" alt="GitHub Badge">
   </a>
-</p>
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=5B45F0&height=100&section=footer&text=Portfolio%20OS&fontSize=22&fontColor=ffffff&animation=fadeIn" />
 </p>

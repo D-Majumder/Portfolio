@@ -6,7 +6,7 @@ const portfolioData = {
   name: "Dhruba Majumder",
   role: "BCA Student • Founder, Hastavya • Builder of CMP",
   cvFile: "Dhruba_Majumder_CV.pdf",
-  contact: { email: "iamdhrubamajumder@gmail.com" },
+  contact: { email: "dhrubamajumder@proton.me" },
   socials: {
     github: "https://github.com/D-Majumder",
     linkedin: "https://www.linkedin.com/in/iamdhrubamajumder/",

@@ -42,7 +42,7 @@ function applyTheme(theme) {
   });
 
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", theme === "night" ? "#0A0B14" : "#0B1622");
+  if (meta) meta.setAttribute("content", theme === "night" ? "#151a17" : "#f5f2ec");
 }
 
 function updateThemePlaceLabel() {

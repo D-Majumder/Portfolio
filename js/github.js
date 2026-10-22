@@ -3,7 +3,7 @@
 // ===========================================================
 
 const GitHubProjects = (() => {
-  const CACHE_KEY = "gh_repo_cache_v1";
+  const CACHE_KEY = "gh_repo_cache_v2:";
   const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
   function scoreRepo(repo) {
@@ -13,19 +13,23 @@ const GitHubProjects = (() => {
   }
 
   async function fetchRepos(username) {
-    const cached = readCache();
+    return fetchCached(`users/${encodeURIComponent(username)}/repos?per_page=100&sort=pushed`);
+  }
+
+  async function fetchCached(path) {
+    const cached = readCache(path);
     if (cached) return cached;
 
-    const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=pushed`);
+    const res = await fetch(`https://api.github.com/${path}`);
     if (!res.ok) throw new Error(`GitHub API responded ${res.status}`);
     const repos = await res.json();
-    writeCache(repos);
+    writeCache(path, repos);
     return repos;
   }
 
-  function readCache() {
+  function readCache(path) {
     try {
-      const raw = localStorage.getItem(CACHE_KEY);
+      const raw = localStorage.getItem(CACHE_KEY + path);
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       if (Date.now() - parsed.ts > CACHE_TTL_MS) return null;
@@ -33,19 +37,20 @@ const GitHubProjects = (() => {
     } catch { return null; }
   }
 
-  function writeCache(data) {
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch {}
+  function writeCache(path, data) {
+    try { localStorage.setItem(CACHE_KEY + path, JSON.stringify({ ts: Date.now(), data })); } catch {}
   }
 
   function rank(repos, ignoreList, pinnedOverride) {
-    const visible = repos.filter(r => !r.fork && !ignoreList.includes(r.name));
+    const matches = (repo, name) => [repo.name, repo.full_name].some(value => value?.toLowerCase() === name.toLowerCase());
+    const visible = repos.filter(r => !r.fork && !r.private && !ignoreList.some(name => matches(r, name)));
     const pinned = [];
     pinnedOverride.forEach(name => {
-      const match = visible.find(r => r.name === name);
-      if (match) pinned.push(match);
+      const match = visible.find(r => matches(r, name));
+      if (match && !pinned.includes(match)) pinned.push(match);
     });
     const rest = visible
-      .filter(r => !pinnedOverride.includes(r.name))
+      .filter(r => !pinned.includes(r))
       .sort((a, b) => scoreRepo(b) - scoreRepo(a));
     return { pinned, rest };
   }
@@ -63,7 +68,7 @@ const GitHubProjects = (() => {
     return `
       <a class="project-card" href="${repo.html_url}" target="_blank" rel="noopener noreferrer" style="display:block; text-decoration:none; color:inherit;">
         <div class="project-card-head">
-          <h4>${escapeHTML(repo.name)}</h4>
+          <h4>${escapeHTML(repo.full_name || repo.name)}</h4>
           ${isPinned ? '<span class="pin-badge">★ Featured</span>' : ''}
         </div>
         <p>${desc}</p>
@@ -82,10 +87,17 @@ const GitHubProjects = (() => {
     return div.innerHTML;
   }
 
-  async function renderInto(containerEl, { username, ignoreList = [], pinnedOverride = [] }) {
+  async function renderInto(containerEl, { username, ignoreList = [], pinnedOverride = [], selectedRepos = [] }) {
+    if (!containerEl) return;
     containerEl.innerHTML = `<p class="gh-loading">Fetching live repos from GitHub…</p>`;
     try {
-      const repos = await fetchRepos(username);
+      const results = await Promise.allSettled([
+        fetchRepos(username),
+        ...selectedRepos.map(name => fetchCached(`repos/${name}`))
+      ]);
+      const repos = [...new Map(results.filter(result => result.status === "fulfilled")
+        .flatMap(result => result.value).map(repo => [repo.full_name, repo])).values()];
+      if (!repos.length && results.some(result => result.status === "rejected")) throw new Error("GitHub unavailable");
       const { pinned, rest } = rank(repos, ignoreList, pinnedOverride);
 
       if (pinned.length === 0 && rest.length === 0) {
@@ -93,7 +105,8 @@ const GitHubProjects = (() => {
         return;
       }
 
-      let html = "";
+      let html = results.some(result => result.status === "rejected")
+        ? '<p class="gh-error">Some GitHub updates are unavailable. Showing the repositories we could load.</p>' : "";
       pinned.forEach(r => html += cardHTML(r, true));
       rest.slice(0, 12).forEach(r => html += cardHTML(r, false));
       containerEl.innerHTML = html;

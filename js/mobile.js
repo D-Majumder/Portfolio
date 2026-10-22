@@ -16,17 +16,15 @@ const M_ICONS = {
 function buildMobileApps() {
   return [
     { id: "about", title: "About Me", icon: M_ICONS.about, dock: true,
-      render: () => `<h2>Hi, I'm ${portfolioData.name.split(" ")[0]} 👋</h2>${portfolioData.about.map(p => `<p>${p}</p>`).join("")}` },
+      render: () => aboutAppHTML() },
     { id: "projects", title: "Projects", icon: M_ICONS.projects, dock: true,
       render: () => `
         <h2>Projects</h2>
         <div class="section-label">Featured Builds</div>
-        ${portfolioData.featuredBuilds.map(p => `
-          <div class="project-card"><div class="project-card-head"><h4>${p.title}</h4></div><p>${p.description}</p>
-          <div class="tag-row">${p.tags.map(t => `<span class="tag-chip">${t}</span>`).join("")}</div></div>`).join("")}
+        ${featuredBuildsHTML()}
         <div class="section-label">Live from GitHub</div>
         <div id="m-gh-project-list"></div>`,
-      onOpen: () => GitHubProjects.renderInto(document.getElementById("m-gh-project-list"), { username: portfolioData.githubUsername, ignoreList: portfolioData.githubIgnoreList, pinnedOverride: portfolioData.pinnedRepoOverride })
+      onOpen: () => GitHubProjects.renderInto(document.getElementById("m-gh-project-list"), { username: portfolioData.githubUsername, ignoreList: portfolioData.githubIgnoreList, pinnedOverride: portfolioData.pinnedRepoOverride, selectedRepos: portfolioData.githubSelectedRepos })
     },
     { id: "skills", title: "Skills", icon: M_ICONS.skills,
       render: () => `<h2>Skills &amp; Stack</h2><div class="tag-row">${portfolioData.skills.map(s => `<span class="tag-chip">${s}</span>`).join("")}</div>` },
@@ -42,10 +40,7 @@ function buildMobileApps() {
       render: () => `<h2>Music</h2><div id="m-player-mount"></div>`,
       onOpen: () => renderMobilePlayer(document.getElementById("m-player-mount")) },
     { id: "contact", title: "Contact", icon: M_ICONS.contact, dock: true,
-      render: () => `<h2>Get in touch</h2><p>Happy to talk about projects, internships, or anything CMP/Hastavya related.</p>
-        <p><a href="mailto:${portfolioData.contact.email}">${portfolioData.contact.email}</a></p>
-        <p><a href="${portfolioData.socials.github}" target="_blank" rel="noopener noreferrer">GitHub — ${portfolioData.githubUsername}</a></p>
-        <p><a href="${portfolioData.socials.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn — Dhruba Majumder</a></p>` },
+      render: () => contactAppHTML() },
     { id: "feedback", title: "Feedback", icon: M_ICONS.feedback,
       render: () => feedbackAppHTML(),
       onOpen: (container) => wireFeedbackApp(container) }
@@ -84,25 +79,27 @@ function tickMobileClock() {
 // ---------------------------------------------------------
 function renderMobileHome() {
   const widgetsEl = document.getElementById("m-widgets");
-  widgetsEl.innerHTML = `<div class="m-widget-card glass" id="m-weather-widget"></div><div class="m-widget-card glass hidden" id="m-visit-widget"></div>`;
+  widgetsEl.innerHTML = `<main class="studio-home">${studioHomeHTML()}</main><div class="mobile-utilities"><div class="m-widget-card glass" id="m-weather-widget"></div><div class="m-widget-card glass hidden" id="m-visit-widget"></div></div>`;
+  wireStudioHome(widgetsEl, openMobileApp);
   renderWeatherWidget(document.getElementById("m-weather-widget"));
   window.__visitCountPromise.then(count => renderVisitPill(document.getElementById("m-visit-widget"), count));
 
   const gridEl = document.getElementById("m-app-grid");
   const gridApps = M_APPS.filter(a => !a.dock);
   gridEl.innerHTML = gridApps.map(app => `
-    <div class="m-app-icon" data-app="${app.id}">
+    <button type="button" class="m-app-icon" data-app="${app.id}" aria-label="${app.title}">
       <div class="m-app-icon-glyph">${app.icon}</div>
       <span>${app.title}</span>
-    </div>`).join("");
+    </button>`).join("");
   gridEl.querySelectorAll("[data-app]").forEach(el => el.addEventListener("click", () => openMobileApp(el.dataset.app)));
 
   const dockEl = document.getElementById("m-dock");
   const dockApps = M_APPS.filter(a => a.dock);
   dockEl.innerHTML = dockApps.map(app => `
-    <div class="m-app-icon" data-app="${app.id}">
+    <button type="button" class="m-app-icon" data-app="${app.id}" aria-label="${app.title}">
       <div class="m-app-icon-glyph">${app.icon}</div>
-    </div>`).join("");
+      <span>${app.title}</span>
+    </button>`).join("");
   dockEl.querySelectorAll("[data-app]").forEach(el => el.addEventListener("click", () => openMobileApp(el.dataset.app)));
 }
 

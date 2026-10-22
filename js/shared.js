@@ -436,13 +436,68 @@ function runBootSequence(onDone) {
 // ---------------------------------------------------------
 // Terminal command set (shared by desktop + mobile terminal apps)
 // ---------------------------------------------------------
+function studioHomeHTML() {
+  return `<div class="studio-topline"><span><i class="studio-status"></i> THE PERSONAL WORKSPACE OF</span><span class="studio-edition">PORTFOLIO / 2026</span></div>
+    <section class="studio-hero">
+      <div class="studio-intro"><p class="studio-eyebrow">DHRUBA MAJUMDER</p>
+        <h1>Curiosity.<br>Made <em>useful.</em></h1>
+        <p class="studio-description">Software developer. Founder at <a href="${portfolioData.company.url}" target="_blank" rel="noopener noreferrer">ANABHAY VENTURES ↗</a><br>I build across software, security, and the physical world.</p>
+        <div class="studio-actions"><button class="studio-primary" data-open-app="projects">Explore my work <span>↗</span></button><button class="studio-secondary" data-open-app="about">A little about me <span>→</span></button></div>
+        <div class="studio-footnote"><span>KOLKATA, INDIA</span><span>IDEA → PROTOTYPE → SYSTEM</span></div>
+      </div>
+      <div class="system-art" aria-hidden="true"><div class="art-grid"></div><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-orbit orbit-three"></div><div class="art-axis"></div><div class="art-core"><span>D<span class="core-dot">.</span></span></div><span class="art-node node-one"></span><span class="art-node node-two"></span><span class="art-label label-one">01 / SOFTWARE</span><span class="art-label label-two">02 / SYSTEMS</span><span class="art-label label-three">03 / SECURITY</span><div class="art-caption"><span>CONNECTED BY CURIOSITY</span><span>FIG. 01 — THE BUILDER'S ORBIT</span></div></div>
+    </section>
+    <section class="studio-work" aria-label="Selected work"><div class="studio-section-head"><h2>Selected explorations</h2><button data-open-app="projects">View all projects <span>↗</span></button></div>
+      <div class="studio-projects">
+        <button class="studio-project" data-open-app="projects"><span class="work-number">01</span><span class="work-copy"><strong>Witnessgraph</strong><span>Evidence, connected.</span><small>SECURITY / RESEARCH TOOL</small></span><span class="work-arrow">↗</span></button>
+        <button class="studio-project" data-open-app="projects"><span class="work-number">02</span><span class="work-copy"><strong>CivicSync</strong><span>From complaint to clarity.</span><small>CIVIC TECH / PROTOTYPE</small></span><span class="work-arrow">↗</span></button>
+        <button class="studio-project" data-open-app="projects"><span class="work-number">03</span><span class="work-copy"><strong>Cognitive Mobility</strong><span>Beyond the screen.</span><small>EMBEDDED / TEAM PROJECT</small></span><span class="work-arrow">↗</span></button>
+      </div></section>
+    <div class="studio-bottom"><span>A SMALL OS. A GROWING BODY OF WORK.</span><button data-open-app="contact">Let's build something <span>↗</span></button></div>`;
+}
+
+function wireStudioHome(container, openApp) {
+  // Assign rather than accumulate listeners when the OS is rebooted.
+  container.onclick = event => {
+    const button = event.target.closest("[data-open-app]");
+    if (button && container.contains(button)) openApp(button.dataset.openApp);
+  };
+}
+
+function aboutAppHTML() {
+  return `<h2>Hi, I'm ${portfolioData.name.split(" ")[0]} 👋</h2>
+    <p class="profile-role">${portfolioData.role}</p>
+    ${portfolioData.about.map(p => `<p>${p}</p>`).join("")}
+    <div class="company-card"><div class="section-label">${portfolioData.company.role}</div>
+      <h3>${portfolioData.company.name}</h3><p>${portfolioData.company.description}</p>
+      <a href="${portfolioData.company.url}" target="_blank" rel="noopener noreferrer">Explore ANABHAY ↗</a></div>`;
+}
+
+function featuredBuildsHTML() {
+  return portfolioData.featuredBuilds.map(p => `<article class="project-card">
+    ${p.status ? `<div class="section-label">${p.status}</div>` : ""}
+    <div class="project-card-head"><h4>${p.title}</h4></div><p>${p.description}</p>
+    <div class="tag-row">${p.tags.map(t => `<span class="tag-chip">${t}</span>`).join("")}</div>
+    ${p.url ? `<p class="project-link"><a href="${p.url}" target="_blank" rel="noopener noreferrer">${p.linkLabel} ↗</a></p>` : ""}
+  </article>`).join("");
+}
+
+function contactAppHTML() {
+  return `<h2>Get in touch</h2><p>Happy to talk about software, systems, internships, and building practical technology.</p>
+    <p><a href="mailto:${portfolioData.contact.email}">${portfolioData.contact.email}</a></p>
+    <p><a href="${portfolioData.socials.github}" target="_blank" rel="noopener noreferrer">GitHub — ${portfolioData.githubUsername}</a></p>
+    <p><a href="${portfolioData.socials.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn — ${portfolioData.name}</a></p>
+    <p><a href="${portfolioData.company.url}" target="_blank" rel="noopener noreferrer">${portfolioData.company.name} — Company website ↗</a></p>`;
+}
+
 function terminalCommands() {
   return {
-    help: () => "Commands: help, whoami, skills, projects, contact, clear",
+    help: () => "Commands: help, whoami, skills, projects, company, contact, clear",
     whoami: () => `${portfolioData.name} — ${portfolioData.role}`,
     skills: () => portfolioData.skills.join(", "),
     projects: () => portfolioData.featuredBuilds.map(p => `• ${p.title}`).join("\n") + "\n(see the Projects app for the live GitHub feed)",
-    contact: () => `${portfolioData.contact.email} · ${portfolioData.socials.github} · ${portfolioData.socials.linkedin}`,
+    company: () => `${portfolioData.company.role}, ${portfolioData.company.name}\n${portfolioData.company.description}\n${portfolioData.company.url}`,
+    contact: () => `${portfolioData.contact.email} · ${portfolioData.socials.github} · ${portfolioData.socials.linkedin} · ${portfolioData.company.url}`,
   };
 }
 

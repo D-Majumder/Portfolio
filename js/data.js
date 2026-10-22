@@ -4,7 +4,7 @@
 
 const portfolioData = {
   name: "Dhruba Majumder",
-  role: "BCA Student • Founder, Hastavya • Builder of CMP",
+  role: "Software Developer • Founder, ANABHAY VENTURES • BCA Student",
   cvFile: "Dhruba_Majumder_CV.pdf",
   contact: { email: "dhrubamajumder@proton.me" },
   socials: {
@@ -13,34 +13,48 @@ const portfolioData = {
   },
 
   githubUsername: "D-Majumder",
+  githubSelectedRepos: ["ANABHAY-VENTURES/Witnessgraph", "ANABHAY-VENTURES/civic-sync", "ANABHAY-VENTURES/gradewise", "ANABHAY-VENTURES/news-dash"],
   pinnedRepoOverride: [
-    "Gesture-Board", "CyberGuardian", "Event-Coupon-Management",
-    "Password-Vault", "CineVault", "Smart-Time-Table"
+    "D-Majumder/gesture-board", "D-Majumder/pulse",
+    "D-Majumder/bca", "D-Majumder/event-coupon-management"
   ],
   githubIgnoreList: [],
 
   featuredBuilds: [
-    { title: "CMP — Cognitive Mobility Platform", description: "A wireless bionic wheelchair controlled by EEG/EMG/EOG biosignals. Custom Arduino master/slave firmware, Bluetooth command handling, ultrasonic obstacle caching, and an HC-05 failsafe for disconnects.", tags: ["Arduino", "Embedded", "Bluetooth", "Biosignals"] },
+    { title: "Witnessgraph", status: "Research tool", description: "A local-first cybersecurity investigation system for preserving evidence, tracing claims to their sources, exploring relationships, and exporting cases for independent verification.", tags: ["Python", "SQLite", "FastAPI", "React"], url: "https://github.com/ANABHAY-VENTURES/Witnessgraph", linkLabel: "Explore repository" },
+    { title: "CivicSync", status: "Working prototype", description: "Turns citizen complaints in English, Hindi, or Bengali into trackable civic reports. Combines AI-assisted understanding with jurisdiction routing and authority-controlled resolution workflows.", tags: ["Python", "FastAPI", "SQLite", "Gemini"], url: "https://anabhay.in/projects/civicsync/", linkLabel: "Read project overview" },
+    { title: "GradeWise", status: "Academic tools", description: "Academic conversions and credit-weighted results, with institution-specific formulas linked to official sources where verified, plus target-score planning and custom calculations.", tags: ["React", "TypeScript", "Vite"], url: "https://github.com/ANABHAY-VENTURES/gradewise", linkLabel: "Explore repository" },
+    { title: "News-Dash", status: "Full-stack application", description: "A MERN news reader with live article fetching, Gemini-assisted summaries, JWT authentication, and a personal dashboard for saved summaries.", tags: ["React", "Node.js", "Express", "MongoDB"], url: "https://github.com/ANABHAY-VENTURES/news-dash", linkLabel: "Explore repository" },
+    { title: "CMP — Cognitive Mobility Platform", status: "Team project · In development", description: "An assistive-mobility project with Team Ekadanta. My contribution covers signal acquisition, Bluetooth master/slave communication, and motor/obstacle-detection integration. Physical safety validation remains outstanding.", tags: ["Embedded C", "Arduino", "Bluetooth", "Sensors"], url: "https://anabhay.in/projects/cognitive-mobility-platform/", linkLabel: "Read project overview" },
     { title: "Hastavya", description: "Founder of a trade-licensed handcrafted heritage clay-art brand, sourcing traditional clay toys and art from Krishnanagar and selling on Meesho.", tags: ["E-commerce", "Sourcing", "Logistics"] },
     { title: "Abhay Charan Art Academy — Website Redesign", description: "Full visual redesign of the family art academy's website (founded 2000, Mayapur) — six pages rebuilt with a gallery/museum aesthetic, a shared CSS design system, and a WhatsApp contact widget.", tags: ["Web Design", "Design System", "CSS"] }
   ],
 
   skills: [
-    "Arduino / Embedded Systems", "Python", "JavaScript", "Computer Vision (OpenCV)",
+    "Python", "JavaScript / TypeScript", "React", "Node.js / Express", "FastAPI",
+    "SQL / SQLite", "MongoDB", "C / C++", "Arduino / Embedded Systems", "Computer Vision (OpenCV)",
     "RAG Pipelines", "Supabase / pgvector", "API Integration", "Cybersecurity",
     "Penetration Testing", "Responsive Web Design", "E-commerce Operations"
   ],
 
   about: [
-    "I'm a final-year BCA student (2027 batch) at Global Knowledge Campus, Kolkata, currently preparing for NIMCET and JECA to pursue an MCA.",
-    "Alongside my degree, I run Hastavya, a handcrafted heritage clay-art brand, and manage the Abhay Charan Art Academy — an institution my father founded in 2000 — handling its class schedules, website, and student records.",
-    "On the technical side, I build hardware/software systems end to end: from CMP, a wireless bionic wheelchair driven by biosignals, to RAG-powered developer tools and computer-vision projects."
+    "I'm a software developer and BCA student at Global Knowledge Campus (2023–2027), and the founder of ANABHAY VENTURES. I learn by building systems across software, security, AI-assisted workflows, and embedded engineering.",
+    "At ANABHAY VENTURES, we focus on practical digital solutions: software and web development, intelligent systems, automation, IoT, cybersecurity, and research-led product development.",
+    "My selected work includes Witnessgraph, CivicSync, GradeWise, and News-Dash. I also contribute to the Cognitive Mobility Platform with Team Ekadanta, working on signal acquisition, communication, and embedded control integration.",
+    "Alongside technology, I run Hastavya, a heritage clay-art brand, and help manage Abhay Charan Art Academy, founded by my father in 2000. My engineering focus is on stronger fundamentals, careful testing, and clear documentation."
   ],
+
+  company: {
+    name: "ANABHAY VENTURES",
+    role: "Founder",
+    url: "https://anabhay.in/",
+    description: "Practical technology. Useful systems. Software, intelligent systems, automation, and engineering that connects the digital and physical worlds."
+  },
 
   notifications: [
     { icon: "👋", title: "Hi there!", body: "Thanks for stopping by — feel free to poke around the dock." },
-    { icon: "🛠️", title: "Currently building", body: "CMP — a biosignal-controlled bionic wheelchair." },
-    { icon: "🎓", title: "Also on my plate", body: "Prepping for NIMCET & JECA to start my MCA." },
+    { icon: "🛠️", title: "Building at ANABHAY", body: "Explore our work in software, intelligent systems, and embedded engineering." },
+    { icon: "🎓", title: "Learning by building", body: "BCA at Global Knowledge Campus — systems, security, and software engineering." },
     { icon: "🧵", title: "Side project", body: "Hastavya — handcrafted heritage clay art, sourced from Krishnanagar." },
     { icon: "💬", title: "Say hello", body: "Open the Terminal app and try `contact`." }
   ],

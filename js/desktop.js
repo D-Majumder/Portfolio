@@ -19,20 +19,18 @@ const ICONS = {
 
 function buildApps() {
   return [
-    { id: "about", title: "About Me", icon: ICONS.about, openOnStart: true, size: { w: 480, h: 460 },
-      render: () => `<h2>Hi, I'm ${portfolioData.name.split(" ")[0]} 👋</h2>${portfolioData.about.map(p => `<p>${p}</p>`).join("")}` },
+    { id: "about", title: "About Me", icon: ICONS.about, size: { w: 600, h: 540 },
+      render: () => aboutAppHTML() },
     { id: "projects", title: "Projects", icon: ICONS.projects, size: { w: 560, h: 560 },
       render: () => `
         <h2>Projects</h2>
         <div class="section-label">Featured Builds</div>
-        ${portfolioData.featuredBuilds.map(p => `
-          <div class="project-card"><div class="project-card-head"><h4>${p.title}</h4></div><p>${p.description}</p>
-          <div class="tag-row">${p.tags.map(t => `<span class="tag-chip">${t}</span>`).join("")}</div></div>`).join("")}
+        ${featuredBuildsHTML()}
         <div class="section-label">Live from GitHub</div>
         <div id="gh-project-list"></div>`,
       onOpen: () => {
         const el = document.getElementById("gh-project-list");
-        if (el) GitHubProjects.renderInto(el, { username: portfolioData.githubUsername, ignoreList: portfolioData.githubIgnoreList, pinnedOverride: portfolioData.pinnedRepoOverride });
+        if (el) GitHubProjects.renderInto(el, { username: portfolioData.githubUsername, ignoreList: portfolioData.githubIgnoreList, pinnedOverride: portfolioData.pinnedRepoOverride, selectedRepos: portfolioData.githubSelectedRepos });
       }
     },
     { id: "skills", title: "Skills", icon: ICONS.skills, size: { w: 420, h: 380 },
@@ -45,11 +43,8 @@ function buildApps() {
       render: () => toolsAppHTML(),
       onOpen: (win) => wireToolsApp(win)
     },
-    { id: "contact", title: "Contact", icon: ICONS.contact, size: { w: 420, h: 320 },
-      render: () => `<h2>Get in touch</h2><p>Happy to talk about projects, internships, or anything CMP/Hastavya related.</p>
-        <p><a href="mailto:${portfolioData.contact.email}">${portfolioData.contact.email}</a></p>
-        <p><a href="${portfolioData.socials.github}" target="_blank" rel="noopener noreferrer">GitHub — ${portfolioData.githubUsername}</a></p>
-        <p><a href="${portfolioData.socials.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn — Dhruba Majumder</a></p>` },
+    { id: "contact", title: "Contact", icon: ICONS.contact, size: { w: 460, h: 390 },
+      render: () => contactAppHTML() },
     { id: "feedback", title: "Feedback", icon: ICONS.feedback, size: { w: 440, h: 540 },
       render: () => feedbackAppHTML(),
       onOpen: (win) => wireFeedbackApp(win) }
@@ -69,6 +64,15 @@ function initDesktopOS() {
 
     APPS = buildApps();
     initDock();
+    const home = document.getElementById("desktop-home");
+    home.innerHTML = studioHomeHTML();
+    wireStudioHome(home, id => {
+      const app = APPS.find(item => item.id === id);
+      if (!app) return;
+      const win = openWindows[id];
+      if (win) { win.classList.remove("minimized"); focusWindow(win); }
+      else openWindow(app);
+    });
     renderWeatherWidget(document.getElementById("desktop-widget"));
     window.__visitCountPromise.then(count => renderVisitPill(document.getElementById("visit-pill"), count));
 
@@ -76,6 +80,12 @@ function initDesktopOS() {
       initClockAndCalendar();
       initPowerMenu();
       initMusicPlayer();
+      const weatherToggle = document.getElementById("weather-toggle-btn");
+      weatherToggle.addEventListener("click", () => {
+        const widget = document.getElementById("desktop-widget");
+        widget.classList.toggle("hidden");
+        weatherToggle.setAttribute("aria-expanded", String(!widget.classList.contains("hidden")));
+      });
       startNotificationLoop(document.getElementById("notification-stack"));
       desktopWiredOnce = true;
     }
@@ -166,7 +176,9 @@ function initDock() {
   const dock = document.getElementById("dock");
   dock.innerHTML = "";
   APPS.forEach(app => {
-    const item = document.createElement("div");
+    const item = document.createElement("button");
+    item.type = "button";
+    item.setAttribute("aria-label", app.title);
     item.className = "dock-item";
     item.id = `dock-item-${app.id}`;
     item.innerHTML = `${app.icon}<span class="tooltip">${app.title}</span><div class="active-dot"></div>`;
@@ -188,18 +200,19 @@ function openWindow(app) {
   const win = document.createElement("div");
   win.className = "os-window";
   win.id = `window-${app.id}`;
-  const w = app.size?.w || 460, h = app.size?.h || 420;
+  const w = Math.min(app.size?.w || 460, layer.clientWidth - 32);
+  const h = Math.min(app.size?.h || 420, layer.clientHeight - 36);
   const offset = Object.keys(openWindows).length * 26;
   win.style.width = w + "px"; win.style.height = h + "px";
   win.style.left = `calc(50% - ${w/2}px + ${offset}px)`;
-  win.style.top = `${40 + offset}px`;
+  win.style.top = `${Math.min(24 + offset, Math.max(12, layer.clientHeight - h - 12))}px`;
 
   win.innerHTML = `
     <div class="win-titlebar" data-drag-handle>
       <div class="win-dots">
-        <button class="win-dot win-dot-close" data-action="close"><svg viewBox="0 0 8 8"><path d="M1 1l6 6M7 1L1 7" stroke="#4d0000" stroke-width="1.4"/></svg></button>
-        <button class="win-dot win-dot-min" data-action="minimize"><svg viewBox="0 0 8 8"><path d="M1 4h6" stroke="#5c3d00" stroke-width="1.4"/></svg></button>
-        <button class="win-dot win-dot-max" data-action="maximize"><svg viewBox="0 0 8 8"><path d="M2 6L6 2M2 2h4v4" stroke="#003d0a" stroke-width="1.2"/></svg></button>
+        <button class="win-dot win-dot-close" aria-label="Close window" data-action="close"><svg viewBox="0 0 8 8"><path d="M1 1l6 6M7 1L1 7" stroke="#4d0000" stroke-width="1.4"/></svg></button>
+        <button class="win-dot win-dot-min" aria-label="Minimize window" data-action="minimize"><svg viewBox="0 0 8 8"><path d="M1 4h6" stroke="#5c3d00" stroke-width="1.4"/></svg></button>
+        <button class="win-dot win-dot-max" aria-label="Maximize window" data-action="maximize"><svg viewBox="0 0 8 8"><path d="M2 6L6 2M2 2h4v4" stroke="#003d0a" stroke-width="1.2"/></svg></button>
       </div>
       <span class="win-title">${app.title}</span>
     </div>

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <!-- ============ SEO ============ -->
-<title>Dhruba Majumder — Portfolio | BCA Student, Global Knowledge Campus</title>
-<meta name="description" content="Dhruba Majumder — final-year BCA student at Global Knowledge Campus, founder of Hastavya, and builder of CMP, a biosignal-controlled bionic wheelchair. Explore projects, skills, and contact info.">
-<meta name="keywords" content="Dhruba Majumder, Global Knowledge Campus, Global College of Science and Technology, BCA, BCA student Kolkata, Hastavya, CMP bionic wheelchair, NIMCET, JECA, D-Majumder GitHub">
+<title>Dhruba Majumder — Software Developer & Founder, ANABHAY VENTURES</title>
+<meta name="description" content="Dhruba Majumder — software developer, founder of ANABHAY VENTURES, and BCA student. Explore work in software, cybersecurity, AI-assisted systems, and embedded engineering.">
+<meta name="keywords" content="Dhruba Majumder, Global Knowledge Campus, Global College of Science and Technology, BCA, BCA student Kolkata, ANABHAY VENTURES, Witnessgraph, CivicSync, GradeWise, software developer, embedded systems, D-Majumder GitHub">
 <meta name="author" content="Dhruba Majumder">
 <link rel="canonical" href="https://dhrubamajumder.pages.dev/">
 <meta name="robots" content="index, follow">
@@ -15,13 +15,13 @@
 <!-- ============ Open Graph / social sharing ============ -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Dhruba Majumder — Portfolio">
-<meta property="og:description" content="BCA student, founder of Hastavya, and builder of CMP — a biosignal-controlled bionic wheelchair. An interactive desktop-style portfolio.">
+<meta property="og:description" content="Software developer and founder of ANABHAY VENTURES. Explore software, security, AI-assisted systems, and embedded projects in an interactive portfolio.">
 <meta property="og:image" content="assets/og-banner.png">
 <meta property="og:url" content="https://dhrubamajumder.pages.dev/">
 <meta property="og:site_name" content="Dhruba Majumder — Portfolio">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Dhruba Majumder — Portfolio">
-<meta name="twitter:description" content="BCA student, founder of Hastavya, and builder of CMP — a biosignal-controlled bionic wheelchair.">
+<meta name="twitter:description" content="Software developer, founder of ANABHAY VENTURES, and BCA student building software, security, and embedded systems.">
 <meta name="twitter:image" content="assets/og-banner.png">
 
 <!-- ============ Favicon ============ -->
@@ -30,7 +30,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="assets/icon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#0B1622">
+<meta name="theme-color" content="#151a17">
 
 <!-- ============ Structured data ============ -->
 <script type="application/ld+json">
@@ -43,16 +43,17 @@
     "https://github.com/D-Majumder",
     "https://www.linkedin.com/in/iamdhrubamajumder/"
   ],
-  "jobTitle": "BCA Student & Founder",
-  "worksFor": { "@type": "Organization", "name": "Hastavya" },
+  "jobTitle": "Software Developer & Founder",
+  "worksFor": { "@type": "Organization", "name": "ANABHAY VENTURES", "url": "https://anabhay.in/" },
   "alumniOf": { "@type": "CollegeOrUniversity", "name": "Global Knowledge Campus" }
 }
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inconsolata:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/studio.css">
 </head>
 <body>
 
@@ -135,6 +136,7 @@
         <span>👀</span><span class="visit-count">0</span>
       </button>
       <span class="theme-place-label" id="theme-place-label" title="Local time in Kolkata">Day here</span>
+      <button class="menu-icon-btn" id="weather-toggle-btn" aria-label="Weather and air quality" aria-expanded="false" aria-controls="desktop-widget" title="Weather and air quality">☁</button>
       <button class="menu-icon-btn theme-toggle-btn" id="theme-toggle-btn" title="Switch day/night">
         <span class="theme-toggle-icon">🌙</span>
       </button>
@@ -150,8 +152,10 @@
     </div>
   </header>
 
+  <main id="desktop-home" class="studio-home" aria-label="Portfolio overview"></main>
+
   <!-- pinned desktop widget (weather + aqi) -->
-  <div id="desktop-widget" class="desktop-widget glass"></div>
+  <div id="desktop-widget" class="desktop-widget glass hidden"></div>
 
   <div id="windows-layer"></div>
   <div id="notification-stack"></div>

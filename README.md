@@ -48,6 +48,7 @@ No build step, no frameworks, no dependencies. Push to GitHub, turn on Pages, do
 | Path | Purpose |
 |---|---|
 | `index.html` | Shared shell: SEO/OG meta, boot screen, desktop & mobile mounts |
+| `css/studio.css` | Studio theme, home screen, orbital graphic, and responsive refinements |
 | `css/style.css` | Theme (day + night variables), styling, resize handles, mouse-reactive background |
 | `js/data.js` | **Your content** — text, links, skills, playlist, widget config, backend API URL |
 | `js/shared.js` | Device-agnostic logic: boot sequence, uptime, weather/AQI, Tools app, Feedback app, visit-pill rendering, power actions |
@@ -65,10 +66,12 @@ No build step, no frameworks, no dependencies. Push to GitHub, turn on Pages, do
 
 ## Design
 
-A vivid indigo/teal theme built on a translucent "carved-glass" surface system, using [Inconsolata](https://fonts.google.com/share?selection.family=Inconsolata:wght@200..900) across the whole site. Every color is a CSS variable, so the entire UI — menu bar, dock, windows, mobile shell — crossfades smoothly between:
+The Studio edition pairs a responsive introduction and selected-work overview with the existing desktop windows and phone app shell. Manrope headings, DM Sans body text, and Inconsolata utility labels establish a clearer hierarchy. A lightweight CSS orbital graphic and subtle grain add depth without image downloads.
 
-- **Day** — light lavender-white canvas, indigo accent (`#5B45F0`), teal secondary (`#14C7A5`)
-- **Night** — deep charcoal/navy canvas (`#0A0B14`), glowing indigo accent (`#8C7BFF`), neon teal (`#2FE3B8`)
+- **Day** — warm ivory (`#F5F2EC`), dark ink, and copper (`#9B482B`)
+- **Night** — graphite green (`#151A17`), warm white, and pale copper (`#E5AD85`)
+
+Visual overrides live in `css/studio.css`. Desktop weather opens from the cloud button; the phone keeps its weather widget. Dock and home actions are keyboard-accessible buttons.
 
 The active theme is driven by the real-time clock in **Kolkata** (6am–6pm = day) and can be flipped manually at any time via the toggle button next to the clock.
 
@@ -101,6 +104,10 @@ Once connected:
 
 All text, links, skills, playlist, and widget/backend settings live in **`js/data.js`**. You shouldn't need to touch any logic or CSS files just to update your bio, projects, or config.
 
+The live feed combines personal repositories with explicitly selected public company repositories in `githubSelectedRepos`. Featured project cards support a status and an optional project/repository link. Shared renderers keep the desktop and mobile content aligned.
+
+Run the focused regression checks with `node --test tests/portfolio.test.cjs`. See [UPDATE-NOTES.md](UPDATE-NOTES.md) for content sources and proposed design improvements.
+
 ---
 
 ## Deploy on GitHub Pages
@@ -125,7 +132,7 @@ No part of this repository (code, design, or content) may be copied, reused, red
 ## Author
 
 <p align="center">
-  <a href="mailto:iamdhrubamajumder@gmail.com" target="_blank">
+  <a href="mailto:dhrubamajumder@proton.me" target="_blank">
     <img src="https://img.shields.io/badge/Email-Dhruba%20Majumder-blue?logo=gmail" alt="Email Badge">
   </a>
   <a href="https://www.linkedin.com/in/iamdhrubamajumder/" target="_blank">

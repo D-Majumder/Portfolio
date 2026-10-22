@@ -97,6 +97,8 @@
 .boot-mark { background:linear-gradient(140deg,#ead3bb,#bd8a61); color:#342c23; box-shadow:0 12px 40px #d2a88022; border-radius:16px; transform:rotate(-10deg); }
 #boot-screen { background:radial-gradient(ellipse at 50% 45%,#5d62401a,transparent 55%),linear-gradient(150deg,var(--boot-bg-1),var(--boot-bg-2)); }
 .name-input { border-radius:7px; font-size:13px; } .boot-continue:hover { background:#f1c4a3; }
+.boot-status { min-height:2.8em; max-width:360px; margin:16px auto 0; color:var(--boot-text-2); font-size:12px; line-height:1.5; }
+.boot-continue:disabled { opacity:.6; cursor:wait; }
 .m-status-bar { border-bottom:1px solid var(--border); padding:0 22px; }
 .m-home { padding:24px 22px 30px; } .m-widgets { margin-bottom:24px; }
 .m-app-icon-glyph { background:var(--panel); color:var(--accent); border-radius:12px; box-shadow:none; width:48px; height:48px; }

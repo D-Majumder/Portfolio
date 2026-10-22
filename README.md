@@ -106,7 +106,7 @@ All text, links, skills, playlist, and widget/backend settings live in **`js/dat
 
 The live feed combines personal repositories with explicitly selected public company repositories in `githubSelectedRepos`. Featured project cards support a status and an optional project/repository link. Shared renderers keep the desktop and mobile content aligned.
 
-Run the focused regression checks with `node --test tests/portfolio.test.cjs`. See [UPDATE-NOTES.md](UPDATE-NOTES.md) for content sources and proposed design improvements.
+Run all regression checks with `node --test tests/boot.test.cjs tests/portfolio.test.cjs`. After changing JavaScript or CSS, run `node scripts/version-assets.cjs` to refresh the content hashes in `index.html`, then `node scripts/version-assets.cjs --check` before publishing. The versioned asset URLs prevent old browser-cached scripts from being mixed with a new release. See [UPDATE-NOTES.md](UPDATE-NOTES.md) for content sources and [TESTING.md](TESTING.md) for startup regression coverage.
 
 ---
 

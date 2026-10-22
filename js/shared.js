@@ -391,6 +391,7 @@ function runBootSequence(onDone) {
   const nameEntry = document.getElementById("name-entry");
   const input = document.getElementById("username-input");
   const continueBtn = document.getElementById("boot-continue");
+  const status = document.getElementById("boot-status");
 
   boot.classList.remove("fade-out", "hidden");
   boot.style.opacity = "1";
@@ -398,39 +399,67 @@ function runBootSequence(onDone) {
   line1.textContent = ""; line2.textContent = "";
   nameEntry.classList.remove("show");
   input.value = "";
+  input.readOnly = false;
+  continueBtn.disabled = false;
+  status.textContent = "";
 
+  const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+  let ready = false, starting = false, complete = false, queuedName = null;
+  let finish;
+  const completion = new Promise(resolve => { finish = resolve; });
+
+  async function submit(event, nameOverride) {
+    if (event?.type === "keydown" && event.key !== "Enter") return;
+    event?.preventDefault();
+    if (starting || complete) return;
+    const name = nameOverride ?? (input.value.trim() || "Guest");
+    if (!ready) { queuedName = name; return; }
+    starting = true;
+    continueBtn.disabled = true;
+    input.readOnly = true;
+    status.textContent = "Opening your workspace…";
+    CURRENT_USERNAME = name;
+    try {
+      // Keep the boot screen visible until the desktop/phone has actually rendered.
+      await onDone();
+      boot.classList.add("fade-out");
+      await delay(480);
+      boot.classList.add("hidden");
+      boot.style.opacity = "";
+      complete = true;
+      continueBtn.removeEventListener("click", submit);
+      input.removeEventListener("keydown", submit);
+      status.textContent = "";
+      finish();
+    } catch (error) {
+      console.error("Portfolio startup failed:", error);
+      boot.classList.remove("fade-out", "hidden");
+      boot.style.opacity = "1";
+      status.textContent = "The workspace could not open. Please try Continue again.";
+      starting = false;
+      continueBtn.disabled = false;
+      input.readOnly = false;
+      input.focus();
+    }
+  }
+
+  // Bind before the animation, including early keyboard/autofill submissions.
+  continueBtn.addEventListener("click", submit);
+  input.addEventListener("keydown", submit);
   (async () => {
-    await new Promise(r => setTimeout(r, 120));
+    await delay(120);
     mark.classList.add("show");
-    await new Promise(r => setTimeout(r, 550));
+    await delay(550);
     await typeInto(line1, "Welcome");
-    await new Promise(r => setTimeout(r, 380));
+    await delay(380);
     await typeInto(line2, "What should we call you?");
-    await new Promise(r => setTimeout(r, 250));
-
+    await delay(250);
+    ready = true;
     nameEntry.classList.add("show");
     input.focus();
-
-    await new Promise(resolve => {
-      let done = false;
-      const submit = () => {
-        if (done) return;
-        done = true;
-        CURRENT_USERNAME = input.value.trim() || "Guest";
-        resolve();
-      };
-      continueBtn.addEventListener("click", submit, { once: true });
-      input.addEventListener("keydown", function handler(e) {
-        if (e.key === "Enter") { input.removeEventListener("keydown", handler); submit(); }
-      });
-    });
-
-    boot.classList.add("fade-out");
-    await new Promise(r => setTimeout(r, 480));
-    boot.classList.add("hidden");
-    boot.style.opacity = "";
-    onDone();
+    if (queuedName !== null) submit(undefined, queuedName);
   })();
+  return completion;
 }
 
 // ---------------------------------------------------------
